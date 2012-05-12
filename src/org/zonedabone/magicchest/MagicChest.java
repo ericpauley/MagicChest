@@ -21,9 +21,13 @@ public class MagicChest extends JavaPlugin implements Listener {
 	
 	@EventHandler
 	public void onInventoryOpen(InventoryOpenEvent e) {
-		if (!e.getPlayer().hasPermission("magicchest.sort"))
-			return;
-		if (e.getInventory().getType() == InventoryType.CHEST && e.getViewers().size() == 1) {
+		InventoryType type = e.getInventory().getType();
+		boolean good = false;
+		if (type == InventoryType.CHEST && e.getPlayer().hasPermission("magicchest.sort.chest"))
+			good = true;
+		if (type == InventoryType.DISPENSER && e.getPlayer().hasPermission("magicchest.sort.dispenser"))
+			good = true;
+		if (good && e.getViewers().size() == 1) {
 			List<ItemStack> stacks = new ArrayList<ItemStack>();
 			for (ItemStack is : e.getInventory().getContents()) {
 				if (is == null)

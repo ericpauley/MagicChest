@@ -4,5 +4,12 @@ description: Summons little gremlins to organize your chests when you're not loo
 main: org.zonedabone.magicchest.MagicChest
 permissions:
     magicchest.sort:
-        description: Sorts chests that this player opens
+        description: Sorts all inventories that this player opens.
         default: true
+        children:
+            magicchest.sort.chest: true
+            magicchest.sort.dispenser: true
+    magicchest.sort.chest:
+        description: Sorts chests that this player opens.
+    magicchest.sort.dispenser:
+        description: Sorts dispensers that this player opens.
