@@ -1,0 +1,8 @@
+name: MagicChest
+version: 1.0.0
+description: Summons little gremlins to organize your chests when you're not looking.
+main: org.zonedabone.magicchest.MagicChest
+permissions:
+    magicchest.sort:
+        description: Sorts chests that this player opens
+        default: true
