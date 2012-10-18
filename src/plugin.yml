@@ -1,5 +1,5 @@
 name: MagicChest
-version: 1.0.3
+version: 1.0.4
 description: Summons little gremlins to organize your chests when you're not looking.
 main: org.zonedabone.magicchest.MagicChest
 permissions:
