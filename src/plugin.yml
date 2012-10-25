@@ -1,5 +1,5 @@
 name: MagicChest
-version: 1.0.4
+version: 1.0.5
 description: Summons little gremlins to organize your chests when you're not looking.
 main: org.zonedabone.magicchest.MagicChest
 permissions:
@@ -13,3 +13,5 @@ permissions:
         description: Sorts chests that this player opens.
     magicchest.sort.dispenser:
         description: Sorts dispensers that this player opens.
+    magicchest.sort.enderchest:
+        description: Sorts ender chests that this player opens.

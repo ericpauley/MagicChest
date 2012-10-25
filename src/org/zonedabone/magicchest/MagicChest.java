@@ -27,6 +27,8 @@ public class MagicChest extends JavaPlugin implements Listener {
 			good = true;
 		if (type == InventoryType.DISPENSER && e.getPlayer().hasPermission("magicchest.sort.dispenser"))
 			good = true;
+		if (type == InventoryType.ENDER_CHEST && e.getPlayer().hasPermission("magicchest.sort.enderchest"))
+			good = true;
 		if (good && e.getViewers().size() == 1) {
 			List<ItemStack> stacks = new ArrayList<ItemStack>();
 			for (ItemStack is : e.getInventory().getContents()) {
