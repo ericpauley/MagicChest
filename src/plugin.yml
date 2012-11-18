@@ -1,23 +1,33 @@
 name: MagicChest
 version: 1.0.7
 description: Summons little gremlins to organize your chests when you're not looking.
+authors: [zonedabone, uvbeenzaned]
 main: org.zonedabone.magicchest.MagicChest
 commands:
   magicchest:
     description: Master MagicChest command.
     aliases: mgcs
     permission: magicchest.sort
-    usage: Type /<command> on/off to enable or disable auto inventory sorting.
+    usage: |
+      Type /<command> help - to show this usage help.
+      Type /<command> on/off - to enable or disable auto inventory sorting.
+      Type /<command> reload - to reload MagicChest's config file. (for ops and those who have permissions)
 permissions:
     magicchest.sort:
         description: Sorts all inventories that this player opens.
         default: true
         children:
+            magicchest.help: true
             magicchest.sort.chest: true
             magicchest.sort.dispenser: true
+            magicchest.sort.enderchest: true
+    magicchest.help:
+        description: Shows MagicChest usage help.
     magicchest.sort.chest:
         description: Sorts chests that this player opens.
     magicchest.sort.dispenser:
         description: Sorts dispensers that this player opens.
     magicchest.sort.enderchest:
         description: Sorts ender chests that this player opens.
+    magicchest.reload:
+        description: Reloads all of MagicChest's config.

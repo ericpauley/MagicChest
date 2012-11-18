@@ -12,24 +12,47 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class MagicChestListener implements Listener {
-
+	
+	JavaPlugin pl;
+	
+	public MagicChestListener(JavaPlugin pl)
+	{
+		this.pl = pl;
+	}
+	
 	@EventHandler
 	public void onInventoryOpen(InventoryOpenEvent e)
 	{
-		if(ConfOps.players.containsKey(e.getPlayer().getName()))
+		Player p = (Player)e.getPlayer();
+		if(p.isOp() || p.hasPermission("magicchest.sort"))
 		{
-			if(ConfOps.players.get(e.getPlayer().getName()))
+			if(pl.getConfig().getConfigurationSection("players") != null)
 			{
+				if(pl.getConfig().getConfigurationSection("players").contains(p.getName()))
+				{
+					if(pl.getConfig().getBoolean("players." + p.getName()))
+					{
+						sort(e);
+					}
+				}
+				else
+				{
+					pl.getConfig().set("players." + p.getName(), true);
+					pl.saveConfig();
+					sendPM(p, "You've been added to the automatic sorting list.  /mgcs off - to stop auto sorting.");
+					sort(e);
+				}
+			}
+			else
+			{
+				pl.getConfig().set("players." + p.getName(), true);
+				pl.saveConfig();
+				sendPM((Player)p, "You've been added to the automatic sorting list.  /mgcs off - to stop auto sorting.");
 				sort(e);
 			}
-		}
-		else
-		{
-			ConfOps.players.put(e.getPlayer().getName(), true);
-			sendPM((Player)e.getPlayer(), "You've been added to the automatic sorting list.  /mgcs off - to stop auto sorting.");
-			sort(e);
 		}
 	}
 
@@ -90,6 +113,6 @@ public class MagicChestListener implements Listener {
 	
 	public void sendPM(Player pl, String msg)
 	{
-		pl.sendMessage(ChatColor.GREEN + "[MagicChest] " + msg + ChatColor.RESET);
+		pl.sendMessage(ChatColor.GREEN + "[MagicChest] " + ChatColor.RESET + msg);
 	}
 }
