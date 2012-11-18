@@ -1,75 +1,99 @@
 package org.zonedabone.magicchest;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class MagicChest extends JavaPlugin implements Listener {
+public class MagicChest extends JavaPlugin {
+	
+	public MagicChestListener mcl;
 	
 	@Override
 	public void onEnable() {
-		getServer().getPluginManager().registerEvents(this, this);
+		mcl = new MagicChestListener();
+		getServer().getPluginManager().registerEvents(this.mcl, this);
+		saveDefaultConfig();
+		getConfig().options().copyDefaults();
+		//load conf
+		ConfOps.load(this);
 	}
 	
-	@EventHandler
-	public void onInventoryOpen(InventoryOpenEvent e) {
-		InventoryType type = e.getInventory().getType();
-		boolean good = false;
-		if (type == InventoryType.CHEST && e.getPlayer().hasPermission("magicchest.sort.chest"))
-			good = true;
-		if (type == InventoryType.DISPENSER && e.getPlayer().hasPermission("magicchest.sort.dispenser"))
-			good = true;
-		if (type == InventoryType.ENDER_CHEST && e.getPlayer().hasPermission("magicchest.sort.enderchest"))
-			good = true;
-		if (good && e.getViewers().size() == 1) {
-			List<ItemStack> stacks = new ArrayList<ItemStack>();
-			for (ItemStack is : e.getInventory().getContents()) {
-				if (is == null)
-					continue;
-				for (ItemStack check : stacks) {
-					if (check == null)
-						continue;
-					if (check.getType() == is.getType() && ((check.getData() == null && is.getData() == null) || check.getData().getData() == is.getData().getData())) {
-						int transfer = Math.min(is.getAmount(), check.getMaxStackSize() - check.getAmount());
-						is.setAmount(is.getAmount() - transfer);
-						check.setAmount(check.getAmount() + transfer);
-					}
-				}
-				if (is.getAmount() > 0) {
-					stacks.add(is);
-				}
-			}
-			Collections.sort(stacks, new Comparator<ItemStack>() {
-				
-				@Override
-				public int compare(ItemStack o1, ItemStack o2) {
-					if (o1.getTypeId() > o2.getTypeId()) {
-						return 1;
-					} else if (o1.getTypeId() < o2.getTypeId()) {
-						return -1;
-					} else if (o1.getData() != null && o2.getData() != null && o1.getData().getData() > o2.getData().getData()) {
-						return 1;
-					} else if (o1.getData() != null && o2.getData() != null && o1.getData().getData() < o2.getData().getData()) {
-						return -1;
-					} else if (o1.getAmount() > o2.getAmount()) {
-						return -1;
-					} else if (o1.getAmount() < o2.getAmount()) {
-						return 1;
-					} else {
-						return 0;
-					}
-				}
-			});
-			e.getInventory().clear();
-			e.getInventory().setContents(stacks.toArray(new ItemStack[0]));
-		}
+	public void onDisable() {
+		//save all config
+		ConfOps.save(this);
 	}
+	
+	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
+	{
+		if(sender instanceof Player)
+		{
+			Player plcmd = (Player)sender;
+			if(args.length > 0)
+			{
+				//turn individual player sort on
+				if(args[0].equalsIgnoreCase("on"))
+				{
+					//check for perms
+					if(plcmd.hasPermission("magicchest.sort"))
+					{
+						if(ConfOps.players.containsKey(plcmd.getName()))
+						{
+							ConfOps.players.put(plcmd.getName(), true);
+							saveConfig();
+							return true;
+						}
+						else
+						{
+							ConfOps.players.put(plcmd.getName(), true);
+							saveConfig();
+							return true;
+						}
+					}
+					//nope!
+					sendPM(plcmd, "Your permissions do not allow you to sort chests!");
+					return false;
+				}
+				//turn individual player sort off
+				if(args[0].equalsIgnoreCase("off"))
+				{
+					//check for perms
+					if(plcmd.hasPermission("magicchest.sort"))
+					{
+						if(ConfOps.players.containsKey(plcmd.getName()))
+						{
+							ConfOps.players.put(plcmd.getName(), false);
+							saveConfig();
+							return true;
+						}
+						else
+						{
+							ConfOps.players.put(plcmd.getName(), false);
+							saveConfig();
+							return true;
+						}
+					}
+					//nope!
+					sendPM(plcmd, "Your permissions do not allow you to sort chests!");
+					return false;
+				}
+				return false;
+			}
+			sendPM(plcmd, "You did not provide enough arguments!");
+			return false;
+		}
+		return false;
+	}
+	
+	public void sendPM(String pl, String msg)
+	{
+		getServer().getPlayer(pl).sendMessage(ChatColor.GREEN + " " + msg + ChatColor.RESET);
+	}
+	
+	public void sendPM(Player pl, String msg)
+	{
+		pl.sendMessage(ChatColor.GREEN + "[MagicChest] " + msg + ChatColor.RESET);
+	}
+	
 }

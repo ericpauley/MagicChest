@@ -1,7 +1,13 @@
 name: MagicChest
-version: 1.0.6
+version: 1.0.7
 description: Summons little gremlins to organize your chests when you're not looking.
 main: org.zonedabone.magicchest.MagicChest
+commands:
+  magicchest:
+    description: Master MagicChest command.
+    aliases: mgcs
+    permission: magicchest.sort
+    usage: Type /<command> on/off to enable or disable auto inventory sorting.
 permissions:
     magicchest.sort:
         description: Sorts all inventories that this player opens.
