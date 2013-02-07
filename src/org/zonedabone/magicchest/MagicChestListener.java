@@ -75,7 +75,7 @@ public class MagicChestListener implements Listener {
 				for (ItemStack check : stacks) {
 					if (check == null)
 						continue;
-					if (check.getType() == is.getType() && ((check.getData() == null && is.getData() == null) || check.getData().getData() == is.getData().getData())) {
+					if (check.isSimilar(is)) {
 						int transfer = Math.min(is.getAmount(), check.getMaxStackSize() - check.getAmount());
 						is.setAmount(is.getAmount() - transfer);
 						check.setAmount(check.getAmount() + transfer);
