@@ -1,8 +1,9 @@
 name: MagicChest
-version: 1.1.0
+version: 1.1.1
 description: Summons little gremlins to organize your chests when you're not looking.
 authors: [zonedabone, uvbeenzaned]
 main: org.zonedabone.magicchest.MagicChest
+dev-url: http://dev.bukkit.org/server-mods/magicchest/
 commands:
   magicchest:
     description: Master MagicChest command.

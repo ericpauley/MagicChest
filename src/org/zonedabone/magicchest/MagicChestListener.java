@@ -24,7 +24,7 @@ public class MagicChestListener implements Listener {
 	}
 	
 	@EventHandler
-	public void onInventoryOpen(InventoryOpenEvent e)
+	private void onInventoryOpen(InventoryOpenEvent e)
 	{
 		Player p = (Player)e.getPlayer();
 		if(p.isOp() || p.hasPermission("magicchest.sort"))
@@ -40,22 +40,23 @@ public class MagicChestListener implements Listener {
 				}
 				else
 				{
-					pl.getConfig().set("players." + p.getName(), true);
-					pl.saveConfig();
-					sendPM(p, "You've been added to the automatic sorting list.  /mgcs off - to stop auto sorting.");
-					sort(e);
+					addToListFalse(p, e);
+					sendPM(p, "If you would like to sort chests automatically, type /mgcs on.");
 				}
 			}
 			else
 			{
-				pl.getConfig().set("players." + p.getName(), true);
-				pl.saveConfig();
-				sendPM((Player)p, "You've been added to the automatic sorting list.  /mgcs off - to stop auto sorting.");
-				sort(e);
+				addToListFalse(p, e);
+				sendPM(p, "If you would like to sort chests automatically, type /mgcs on.");
 			}
 		}
 	}
-
+	
+	private void addToListFalse(Player p, InventoryOpenEvent e)
+	{
+		pl.getConfig().set("players." + p.getName(), false);
+		pl.saveConfig();
+	}
 	
 	public void sort(InventoryOpenEvent e)
 	{

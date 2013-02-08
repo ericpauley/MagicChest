@@ -1,5 +1,7 @@
 package org.zonedabone.magicchest;
 
+import java.io.IOException;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -16,6 +18,12 @@ public class MagicChest extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(this.mcl, this);
 		saveDefaultConfig();
 		getConfig().options().copyDefaults(true);
+		try {
+		    MetricsLite metrics = new MetricsLite(this);
+		    metrics.start();
+		} catch (IOException e) {
+		    // Failed to submit the stats :-(
+		}
 	}
 	
 	public void onDisable() {
