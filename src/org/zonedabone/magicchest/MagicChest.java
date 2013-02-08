@@ -152,12 +152,12 @@ public class MagicChest extends JavaPlugin {
 	//sends plugin message with with either a player name string or the actual instance of the player
 	public void sendPM(String pl, String msg)
 	{
-		getServer().getPlayer(pl).sendMessage(ChatColor.GREEN + "[MagicChest] " + ChatColor.RESET + msg);
+		getServer().getPlayer(pl).sendMessage(ChatColor.GOLD + "[" + ChatColor.GREEN + "MagicChest" + ChatColor.GOLD + "] " + ChatColor.RESET + msg);
 	}
 	
 	public void sendPM(Player pl, String msg)
 	{
-		pl.sendMessage(ChatColor.GREEN + "[MagicChest] " + ChatColor.RESET + msg);
+		pl.sendMessage(ChatColor.GOLD + "[" + ChatColor.GREEN + "MagicChest" + ChatColor.GOLD + "] " + ChatColor.RESET + msg);
 	}
 	
 }

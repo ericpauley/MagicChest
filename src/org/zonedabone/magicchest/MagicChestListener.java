@@ -114,6 +114,6 @@ public class MagicChestListener implements Listener {
 	
 	public void sendPM(Player pl, String msg)
 	{
-		pl.sendMessage(ChatColor.GREEN + "[MagicChest] " + ChatColor.RESET + msg);
+		pl.sendMessage(ChatColor.GOLD + "[" + ChatColor.GREEN + "MagicChest" + ChatColor.GOLD + "] " + ChatColor.RESET + msg);
 	}
 }
