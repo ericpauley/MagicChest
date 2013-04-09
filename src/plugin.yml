@@ -23,7 +23,6 @@ permissions:
             magicchest.sort.dropper: true
             magicchest.sort.enderchest: true
             magicchest.sort.hopper: true
-            magicchest.sort.player: true
     magicchest.help:
         description: Shows MagicChest usage help.
     magicchest.sort.chest:
@@ -36,7 +35,5 @@ permissions:
         description: Sorts ender chests that this player opens.
     magicchest.sort.hopper:
         description: Sorts hoppers that this player opens.
-    magicchest.sort.player:
-        description: Sorts this player's inventory.
     magicchest.reload:
         description: Reloads all of MagicChest's config.
