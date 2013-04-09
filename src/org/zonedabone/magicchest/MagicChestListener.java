@@ -33,28 +33,25 @@ public class MagicChestListener implements Listener {
 			{
 				if(pl.getConfig().getConfigurationSection("players").contains(p.getName()))
 				{
-					if(pl.getConfig().getBoolean("players." + p.getName()))
-					{
-						sort(e);
-					}
+					sort(e);
 				}
 				else
 				{
-					addToListFalse(p, e);
-					sendPM(p, "If you would like to sort chests automatically, type /mgcs on.");
+					addToListFalse(p.getName());
+					sendPM(p, "If you would like to sort chests automatically, type /mgcs on.  To sort your inventory automatically, type /mgcs inv.");
 				}
 			}
 			else
 			{
-				addToListFalse(p, e);
-				sendPM(p, "If you would like to sort chests automatically, type /mgcs on.");
+				addToListFalse(p.getName());
+				sendPM(p, "If you would like to sort chests automatically, type /mgcs on.  To sort your inventory automatically, type /mgcs inv.");
 			}
 		}
 	}
 	
-	private void addToListFalse(Player p, InventoryOpenEvent e)
+	private void addToListFalse(String p)
 	{
-		pl.getConfig().set("players." + p.getName(), false);
+		pl.getConfig().set("players." + p, "false,false");
 		pl.saveConfig();
 	}
 	
@@ -62,12 +59,25 @@ public class MagicChestListener implements Listener {
 	{
 		InventoryType type = e.getInventory().getType();
 		boolean good = false;
-		if (type == InventoryType.CHEST && e.getPlayer().hasPermission("magicchest.sort.chest"))
-			good = true;
-		if (type == InventoryType.DISPENSER && e.getPlayer().hasPermission("magicchest.sort.dispenser"))
-			good = true;
-		if (type == InventoryType.ENDER_CHEST && e.getPlayer().hasPermission("magicchest.sort.enderchest"))
-			good = true;
+		if(Boolean.parseBoolean(pl.getConfig().getString("players." + e.getPlayer().getName()).split(",")[0]))
+		{
+			if (type == InventoryType.CHEST && e.getPlayer().hasPermission("magicchest.sort.chest"))
+				good = true;
+			if (type == InventoryType.DISPENSER && e.getPlayer().hasPermission("magicchest.sort.dispenser"))
+				good = true;
+			if (type == InventoryType.DROPPER && e.getPlayer().hasPermission("magicchest.sort.dropper"))
+				good = true;
+			if (type == InventoryType.ENDER_CHEST && e.getPlayer().hasPermission("magicchest.sort.enderchest"))
+				good = true;
+			if (type == InventoryType.HOPPER && e.getPlayer().hasPermission("magicchest.sort.hopper"))
+				good = true;
+		}
+		if(Boolean.parseBoolean(pl.getConfig().getString("players." + e.getPlayer().getName()).split(",")[1]))
+		{
+			if (type == InventoryType.PLAYER && e.getPlayer().hasPermission("magicchest.sort.player"))
+				good = true;
+		}
+		
 		if (good && e.getViewers().size() == 1) {
 			List<ItemStack> stacks = new ArrayList<ItemStack>();
 			for (ItemStack is : e.getInventory().getContents()) {

@@ -18,6 +18,16 @@ public class MagicChest extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(this.mcl, this);
 		saveDefaultConfig();
 		getConfig().options().copyDefaults(true);
+		if(getConfig().getConfigurationSection("players") != null)
+		{
+			for(String cs : getConfig().getConfigurationSection("players").getKeys(false))
+			{
+				if(getConfig().getString("players." + cs).split(",")[1] == null || getConfig().getString("players." + cs).split(",")[1] == "")
+				{
+					getConfig().set("players." + cs, getConfig().getString("players." + cs) + ",false");
+				}
+			}
+		}
 		try {
 		    MetricsLite metrics = new MetricsLite(this);
 		    metrics.start();
@@ -61,14 +71,14 @@ public class MagicChest extends JavaPlugin {
 						{
 							if(getConfig().getConfigurationSection("players").contains(plcmd.getName()))
 							{
-								getConfig().set("players." + plcmd.getName(), true);
+								getConfig().set("players." + plcmd.getName(), "true," + getConfig().getString("players." + plcmd.getName()).split(",")[1]);
 								sendPM(plcmd, "Auto sorting switched on!");
 								saveConfig();
 								return true;
 							}
 							else
 							{
-								getConfig().set("players." + plcmd.getName(), true);
+								getConfig().set("players." + plcmd.getName(), "true," + getConfig().getString("players." + plcmd.getName()).split(",")[1]);
 								sendPM(plcmd, "Auto sorting switched on!");
 								saveConfig();
 								return true;
@@ -76,7 +86,7 @@ public class MagicChest extends JavaPlugin {
 						}
 						else
 						{
-							getConfig().set("players." + plcmd.getName(), true);
+							getConfig().set("players." + plcmd.getName(), "true," + getConfig().getString("players." + plcmd.getName()).split(",")[1]);
 							sendPM(plcmd, "Auto sorting switched on!");
 							saveConfig();
 							return true;
@@ -96,14 +106,14 @@ public class MagicChest extends JavaPlugin {
 						{
 							if(getConfig().getConfigurationSection("players").contains(plcmd.getName()))
 							{
-								getConfig().set("players." + plcmd.getName(), false);
+								getConfig().set("players." + plcmd.getName(), getConfig().getString("players." + plcmd.getName()).split(",")[0] + ",false");
 								sendPM(plcmd, "Auto sorting switched off!");
 								saveConfig();
 								return true;
 							}
 							else
 							{
-								getConfig().set("players." + plcmd.getName(), false);
+								getConfig().set("players." + plcmd.getName(), getConfig().getString("players." + plcmd.getName()).split(",")[0] + ",false");
 								sendPM(plcmd, "Auto sorting switched off!");
 								saveConfig();
 								return true;
@@ -111,10 +121,74 @@ public class MagicChest extends JavaPlugin {
 						}
 						else
 						{
-							getConfig().set("players." + plcmd.getName(), false);
+							getConfig().set("players." + plcmd.getName(), getConfig().getString("players." + plcmd.getName()).split(",")[0] + ",false");
 							sendPM(plcmd, "Auto sorting switched off!");
 							saveConfig();
 							return true;
+						}
+					}
+					//nope!
+					sendPM(plcmd, "Your permissions do not allow you to sort chests!");
+					return true;
+				}
+				if(args[0].equalsIgnoreCase("inv"))
+				{
+					//check for perms
+					if(plcmd.isOp() || plcmd.hasPermission("magicchest.sort.player"))
+					{
+						if(getConfig().getConfigurationSection("players") != null)
+						{
+							if(getConfig().getConfigurationSection("players").contains(plcmd.getName()))
+							{
+								if(!Boolean.parseBoolean(getConfig().getString("players." + plcmd.getName()).split(",")[1]))
+								{
+									getConfig().set("players." + plcmd.getName(), getConfig().getString("players." + plcmd.getName()).split(",")[0] + ",true");
+									sendPM(plcmd, "Auto inventory sorting switched on!");
+									saveConfig();
+									return true;
+								}
+								else
+								{
+									getConfig().set("players." + plcmd.getName(), getConfig().getString("players." + plcmd.getName()).split(",")[0] + ",false");
+									sendPM(plcmd, "Auto inventory sorting switched off!");
+									saveConfig();
+									return true;
+								}
+							}
+							else
+							{
+								if(!Boolean.parseBoolean(getConfig().getString("players." + plcmd.getName()).split(",")[1]))
+								{
+									getConfig().set("players." + plcmd.getName(), getConfig().getString("players." + plcmd.getName()).split(",")[0] + ",true");
+									sendPM(plcmd, "Auto inventory sorting switched on!");
+									saveConfig();
+									return true;
+								}
+								else
+								{
+									getConfig().set("players." + plcmd.getName(), getConfig().getString("players." + plcmd.getName()).split(",")[0] + ",false");
+									sendPM(plcmd, "Auto inventory sorting switched off!");
+									saveConfig();
+									return true;
+								}
+							}
+						}
+						else
+						{
+							if(!Boolean.parseBoolean(getConfig().getString("players." + plcmd.getName()).split(",")[1]))
+							{
+								getConfig().set("players." + plcmd.getName(), getConfig().getString("players." + plcmd.getName()).split(",")[0] + ",true");
+								sendPM(plcmd, "Auto inventory sorting switched on!");
+								saveConfig();
+								return true;
+							}
+							else
+							{
+								getConfig().set("players." + plcmd.getName(), getConfig().getString("players." + plcmd.getName()).split(",")[0] + ",false");
+								sendPM(plcmd, "Auto inventory sorting switched off!");
+								saveConfig();
+								return true;
+							}
 						}
 					}
 					//nope!

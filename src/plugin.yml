@@ -1,5 +1,5 @@
 name: MagicChest
-version: 1.1.2
+version: 1.1.3
 description: Summons little gremlins to organize your chests when you're not looking.
 authors: [zonedabone, uvbeenzaned]
 main: org.zonedabone.magicchest.MagicChest
@@ -20,14 +20,23 @@ permissions:
             magicchest.help: true
             magicchest.sort.chest: true
             magicchest.sort.dispenser: true
+            magicchest.sort.dropper: true
             magicchest.sort.enderchest: true
+            magicchest.sort.hopper: true
+            magicchest.sort.player: true
     magicchest.help:
         description: Shows MagicChest usage help.
     magicchest.sort.chest:
         description: Sorts chests that this player opens.
     magicchest.sort.dispenser:
         description: Sorts dispensers that this player opens.
+    magicchest.sort.dropper:
+        description: Sorts droppers that this player opens.
     magicchest.sort.enderchest:
         description: Sorts ender chests that this player opens.
+    magicchest.sort.hopper:
+        description: Sorts hoppers that this player opens.
+    magicchest.sort.player:
+        description: Sorts this player's inventory.
     magicchest.reload:
         description: Reloads all of MagicChest's config.
