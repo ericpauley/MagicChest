@@ -29,13 +29,21 @@ public class MagicChestListener implements Listener {
 		Player p = (Player)e.getPlayer();
 		if(p.isOp() || p.hasPermission("magicchest.sort"))
 		{
-			if(pl.getConfig().getConfigurationSection("players") != null)
+			if(!pl.getConfig().getBoolean("default_sorting"))
 			{
-				if(pl.getConfig().getConfigurationSection("players").contains(p.getName()))
+				if(pl.getConfig().getConfigurationSection("players") != null)
 				{
-					if(pl.getConfig().getBoolean("players." + p.getName()))
+					if(pl.getConfig().getConfigurationSection("players").contains(p.getName()))
 					{
-						sort(e);
+						if(pl.getConfig().getBoolean("players." + p.getName()))
+						{
+							sort(e);
+						}
+					}
+					else
+					{
+						addToListFalse(p.getName());
+						sendPM(p, "If you would like to sort chests automatically, type /mgcs on.");
 					}
 				}
 				else
@@ -46,8 +54,28 @@ public class MagicChestListener implements Listener {
 			}
 			else
 			{
-				addToListFalse(p.getName());
-				sendPM(p, "If you would like to sort chests automatically, type /mgcs on.");
+				if(pl.getConfig().getConfigurationSection("players") != null)
+				{
+					if(pl.getConfig().getConfigurationSection("players").contains(p.getName()))
+					{
+						if(pl.getConfig().getBoolean("players." + p.getName()))
+						{
+							sort(e);
+						}
+					}
+					else
+					{
+						sendPM(p, "Your chest will sort their items automatically now.  To turn this off, type /mgcs off.");
+						addToListTrue(p.getName());
+						sort(e);
+					}
+				}
+				else
+				{
+					sendPM(p, "Your chest will sort their items automatically now.  To turn this off, type /mgcs off.");
+					addToListTrue(p.getName());
+					sort(e);
+				}
 			}
 		}
 	}
@@ -55,6 +83,12 @@ public class MagicChestListener implements Listener {
 	private void addToListFalse(String p)
 	{
 		pl.getConfig().set("players." + p, false);
+		pl.saveConfig();
+	}
+	
+	private void addToListTrue(String p)
+	{
+		pl.getConfig().set("players." + p, true);
 		pl.saveConfig();
 	}
 	
