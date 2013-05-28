@@ -1,3 +1,5 @@
+# force sorting on override all (force sorting and turn off all commands)
+override: false
 # to sort automatically by default or not
 default_sorting: false
 # user switches for auto sorting prefs

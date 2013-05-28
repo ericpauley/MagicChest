@@ -36,30 +36,40 @@ public class MagicChest extends JavaPlugin {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
 	{
-		if(sender instanceof Player)
+		if(!getConfig().getBoolean("override"))
 		{
-			Player plcmd = (Player)sender;
-			if(args.length > 0)
+			if(sender instanceof Player)
 			{
-				//show help
-				if(args[0].equalsIgnoreCase("help"))
+				Player plcmd = (Player)sender;
+				if(args.length > 0)
 				{
-					if(plcmd.isOp() || plcmd.hasPermission("magicchest.help"))
+					//show help
+					if(args[0].equalsIgnoreCase("help"))
 					{
-						sendPM(plcmd, "Usage:");
-						//*facepalm*.... U NOOB.
-						return false;
-					}
-				}
-				//turn individual player sort on
-				if(args[0].equalsIgnoreCase("on"))
-				{
-					//check for perms
-					if(plcmd.isOp() || plcmd.hasPermission("magicchest.sort"))
-					{
-						if(getConfig().getConfigurationSection("players") != null)
+						if(plcmd.isOp() || plcmd.hasPermission("magicchest.help"))
 						{
-							if(getConfig().getConfigurationSection("players").contains(plcmd.getName()))
+							sendPM(plcmd, "Usage:");
+							//*facepalm*.... U NOOB.
+							return false;
+						}
+					}
+					//turn individual player sort on
+					if(args[0].equalsIgnoreCase("on"))
+					{
+						//check for perms
+						if(plcmd.isOp() || plcmd.hasPermission("magicchest.sort"))
+						{
+							if(getConfig().getConfigurationSection("players") != null)
+							{
+								if(getConfig().getConfigurationSection("players").contains(plcmd.getName()))
+								{
+									getConfig().set("players." + plcmd.getName(), true);
+									sendPM(plcmd, "Auto sorting switched on!");
+									saveConfig();
+									return true;
+								}
+							}
+							else
 							{
 								getConfig().set("players." + plcmd.getName(), true);
 								sendPM(plcmd, "Auto sorting switched on!");
@@ -67,27 +77,27 @@ public class MagicChest extends JavaPlugin {
 								return true;
 							}
 						}
-						else
-						{
-							getConfig().set("players." + plcmd.getName(), true);
-							sendPM(plcmd, "Auto sorting switched on!");
-							saveConfig();
-							return true;
-						}
+						//nope!
+						sendPM(plcmd, "Your permissions do not allow you to sort chests!");
+						return true;
 					}
-					//nope!
-					sendPM(plcmd, "Your permissions do not allow you to sort chests!");
-					return true;
-				}
-				//turn individual player sort off
-				if(args[0].equalsIgnoreCase("off"))
-				{
-					//check for perms
-					if(plcmd.isOp() || plcmd.hasPermission("magicchest.sort"))
+					//turn individual player sort off
+					if(args[0].equalsIgnoreCase("off"))
 					{
-						if(getConfig().getConfigurationSection("players") != null)
+						//check for perms
+						if(plcmd.isOp() || plcmd.hasPermission("magicchest.sort"))
 						{
-							if(getConfig().getConfigurationSection("players").contains(plcmd.getName()))
+							if(getConfig().getConfigurationSection("players") != null)
+							{
+								if(getConfig().getConfigurationSection("players").contains(plcmd.getName()))
+								{
+									getConfig().set("players." + plcmd.getName(), false);
+									sendPM(plcmd, "Auto sorting switched off!");
+									saveConfig();
+									return true;
+								}
+							}
+							else
 							{
 								getConfig().set("players." + plcmd.getName(), false);
 								sendPM(plcmd, "Auto sorting switched off!");
@@ -95,44 +105,38 @@ public class MagicChest extends JavaPlugin {
 								return true;
 							}
 						}
-						else
-						{
-							getConfig().set("players." + plcmd.getName(), false);
-							sendPM(plcmd, "Auto sorting switched off!");
-							saveConfig();
-							return true;
-						}
-					}
-					//nope!
-					sendPM(plcmd, "Your permissions do not allow you to sort chests!");
-					return true;
-				}
-				//reload all config
-				if(args[0].equalsIgnoreCase("reload"))
-				{
-					if(plcmd.isOp() || plcmd.hasPermission("magicchest.reload"))
-					{
-						reloadConfig();
-						sendPM(plcmd, "Reloaded configuration!");
+						//nope!
+						sendPM(plcmd, "Your permissions do not allow you to sort chests!");
 						return true;
 					}
-					//y u no op?!
-					sendPM(plcmd, "Your permissions do not allow you to reload the config!");
+					//reload all config
+					if(args[0].equalsIgnoreCase("reload"))
+					{
+						if(plcmd.isOp() || plcmd.hasPermission("magicchest.reload"))
+						{
+							reloadConfig();
+							sendPM(plcmd, "Reloaded configuration!");
+							return true;
+						}
+						//y u no op?!
+						sendPM(plcmd, "Your permissions do not allow you to reload the config!");
+						return false;
+					}
+					//theres no command with that name!
+					sendPM(plcmd, "Unrecognized command: " + cmd.getName());
 					return false;
 				}
-				//theres no command with that name!
-				sendPM(plcmd, "Unrecognized command: " + cmd.getName());
-				return false;
+				//version # and stuff like that
+				sendPM(plcmd, "MagicChest v" + getDescription().getVersion().toString());
+				sendPM(plcmd, "Authors: " + getDescription().getAuthors().toArray()[0] + " - founder and lead dev, " + getDescription().getAuthors().toArray()[1] + " - coauthor and developer");
+				sendPM(plcmd, "Type /mgcs help to see all commands.");
+				return true;
 			}
-			//version # and stuff like that
-			sendPM(plcmd, "MagicChest v" + getDescription().getVersion().toString());
-			sendPM(plcmd, "Authors: " + getDescription().getAuthors().toArray()[0] + " - founder and lead dev, " + getDescription().getAuthors().toArray()[1] + " - coauthor and developer");
-			sendPM(plcmd, "Type /mgcs help to see all commands.");
-			return true;
+			//you must be a robot!
+			sender.sendMessage(ChatColor.GREEN + "[MagicChest] " + ChatColor.RESET + "You have to be a player to run this command!");
+			return false;
 		}
-		//you must be a robot!
-		sender.sendMessage(ChatColor.GREEN + "[MagicChest] " + ChatColor.RESET + "You have to be a player to run this command!");
-		return false;
+		return true;
 	}
 	
 	//sends plugin message with with either a player name string or the actual instance of the player
