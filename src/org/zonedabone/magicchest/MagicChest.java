@@ -2,10 +2,13 @@ package org.zonedabone.magicchest;
 
 import java.io.IOException;
 
+import net.dandielo.citizens.traders_v3.bukkit.DtlTraders;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class MagicChest extends JavaPlugin {
@@ -24,6 +27,17 @@ public class MagicChest extends JavaPlugin {
 		} catch (IOException e) {
 		    // Failed to submit the stats :-(
 		}
+	}
+	
+	public DtlTraders getdtlTraders() {
+	    Plugin plugin = getServer().getPluginManager().getPlugin("dtlTraders");
+	 
+	    // DtlTraders may not be loaded
+	    if (plugin == null || !(plugin instanceof DtlTraders)) {
+	        return null;
+	    }
+	 
+	    return (DtlTraders) plugin;
 	}
 	
 	public void onDisable() {

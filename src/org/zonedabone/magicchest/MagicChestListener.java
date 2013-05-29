@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import net.dandielo.api.traders.tNpcAPI;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,13 +14,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class MagicChestListener implements Listener {
 	
-	JavaPlugin pl;
+	MagicChest pl;
 	
-	public MagicChestListener(JavaPlugin pl)
+	public MagicChestListener(MagicChest pl)
 	{
 		this.pl = pl;
 	}
@@ -39,7 +40,19 @@ public class MagicChestListener implements Listener {
 						{
 							if(pl.getConfig().getBoolean("players." + p.getName()))
 							{
-								sort(e);
+								//working on dtltraders here
+								if(pl.getdtlTraders() != null)
+								{
+									p.sendMessage(String.valueOf(tNpcAPI.isTNpcInventory(e.getInventory())));
+									if(!tNpcAPI.isTNpcInventory(e.getInventory()))
+									{
+										sort(e);
+									}
+								}
+								else
+								{
+									sort(e);
+								}
 							}
 						}
 						else
