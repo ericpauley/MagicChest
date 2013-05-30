@@ -40,11 +40,10 @@ public class MagicChestListener implements Listener {
 						{
 							if(pl.getConfig().getBoolean("players." + p.getName()))
 							{
-								//working on dtltraders here
+								//dtlTraders check
 								if(pl.getdtlTraders() != null)
 								{
-									p.sendMessage(String.valueOf(tNpcAPI.isTNpcInventory(e.getInventory())));
-									if(!tNpcAPI.isTNpcInventory(e.getInventory()))
+									if(!tNpcAPI.isTNpcInventory((Player) e.getPlayer()))
 									{
 										sort(e);
 									}
@@ -75,28 +74,72 @@ public class MagicChestListener implements Listener {
 						{
 							if(pl.getConfig().getBoolean("players." + p.getName()))
 							{
-								sort(e);
+								//dtlTraders check
+								if(pl.getdtlTraders() != null)
+								{
+									if(!tNpcAPI.isTNpcInventory((Player) e.getPlayer()))
+									{
+										sort(e);
+									}
+								}
+								else
+								{
+									sort(e);
+								}
 							}
 						}
 						else
 						{
 							sendPM(p, "Your chest will sort their items automatically now.  To turn this off, type /mgcs off.");
 							addToListTrue(p.getName());
-							sort(e);
+							//dtlTraders check
+							if(pl.getdtlTraders() != null)
+							{
+								if(!tNpcAPI.isTNpcInventory((Player) e.getPlayer()))
+								{
+									sort(e);
+								}
+							}
+							else
+							{
+								sort(e);
+							}
 						}
 					}
 					else
 					{
 						sendPM(p, "Your chest will sort their items automatically now.  To turn this off, type /mgcs off.");
 						addToListTrue(p.getName());
-						sort(e);
+						//dtlTraders check
+						if(pl.getdtlTraders() != null)
+						{
+							if(!tNpcAPI.isTNpcInventory((Player) e.getPlayer()))
+							{
+								sort(e);
+							}
+						}
+						else
+						{
+							sort(e);
+						}
 					}
 				}
 			}
 		}
 		else
 		{
-			sort(e);
+			//dtlTraders check
+			if(pl.getdtlTraders() != null)
+			{
+				if(!tNpcAPI.isTNpcInventory((Player) e.getPlayer()))
+				{
+					sort(e);
+				}
+			}
+			else
+			{
+				sort(e);
+			}
 		}
 	}
 	
