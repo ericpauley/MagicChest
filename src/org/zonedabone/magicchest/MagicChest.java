@@ -2,19 +2,16 @@ package org.zonedabone.magicchest;
 
 import java.io.IOException;
 
-import net.dandielo.citizens.traders_v3.bukkit.DtlTraders;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class MagicChest extends JavaPlugin {
-	
+
 	public MagicChestListener mcl;
-	
+
 	@Override
 	public void onEnable() {
 		mcl = new MagicChestListener(this);
@@ -22,24 +19,13 @@ public class MagicChest extends JavaPlugin {
 		saveDefaultConfig();
 		getConfig().options().copyDefaults(true);
 		try {
-		    MetricsLite metrics = new MetricsLite(this);
-		    metrics.start();
+			MetricsLite metrics = new MetricsLite(this);
+			metrics.start();
 		} catch (IOException e) {
-		    // Failed to submit the stats :-(
+			// Failed to submit the stats :-(
 		}
 	}
-	
-	public DtlTraders getdtlTraders() {
-	    Plugin plugin = getServer().getPluginManager().getPlugin("dtlTraders");
-	 
-	    // DtlTraders may not be loaded
-	    if (plugin == null || !(plugin instanceof DtlTraders)) {
-	        return null;
-	    }
-	 
-	    return (DtlTraders) plugin;
-	}
-	
+
 	public void onDisable() {
 		//save all config
 		if(getConfig().getConfigurationSection("players") != null)
@@ -47,14 +33,14 @@ public class MagicChest extends JavaPlugin {
 			saveConfig();
 		}
 	}
-	
+
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
 	{
-		if(!getConfig().getBoolean("override"))
+		if(sender instanceof Player)
 		{
-			if(sender instanceof Player)
+			Player plcmd = (Player)sender;
+			if((!getConfig().getBoolean("override")) || ((getConfig().getBoolean("override") && (plcmd.isOp() || plcmd.hasPermission("magicchest.reload")))))
 			{
-				Player plcmd = (Player)sender;
 				if(args.length > 0)
 				{
 					//show help
@@ -62,7 +48,7 @@ public class MagicChest extends JavaPlugin {
 					{
 						if(plcmd.isOp() || plcmd.hasPermission("magicchest.help"))
 						{
-							sendPM(plcmd, "Usage:");
+							Chat.sendPM(plcmd, "Usage:");
 							//*facepalm*.... U NOOB.
 							return false;
 						}
@@ -78,7 +64,7 @@ public class MagicChest extends JavaPlugin {
 								if(getConfig().getConfigurationSection("players").contains(plcmd.getName()))
 								{
 									getConfig().set("players." + plcmd.getName(), true);
-									sendPM(plcmd, "Auto sorting switched on!");
+									Chat.sendPM(plcmd, "Auto sorting switched on!");
 									saveConfig();
 									return true;
 								}
@@ -86,13 +72,13 @@ public class MagicChest extends JavaPlugin {
 							else
 							{
 								getConfig().set("players." + plcmd.getName(), true);
-								sendPM(plcmd, "Auto sorting switched on!");
+								Chat.sendPM(plcmd, "Auto sorting switched on!");
 								saveConfig();
 								return true;
 							}
 						}
 						//nope!
-						sendPM(plcmd, "Your permissions do not allow you to sort chests!");
+						Chat.sendPM(plcmd, "Your permissions do not allow you to sort chests!");
 						return true;
 					}
 					//turn individual player sort off
@@ -106,7 +92,7 @@ public class MagicChest extends JavaPlugin {
 								if(getConfig().getConfigurationSection("players").contains(plcmd.getName()))
 								{
 									getConfig().set("players." + plcmd.getName(), false);
-									sendPM(plcmd, "Auto sorting switched off!");
+									Chat.sendPM(plcmd, "Auto sorting switched off!");
 									saveConfig();
 									return true;
 								}
@@ -114,13 +100,13 @@ public class MagicChest extends JavaPlugin {
 							else
 							{
 								getConfig().set("players." + plcmd.getName(), false);
-								sendPM(plcmd, "Auto sorting switched off!");
+								Chat.sendPM(plcmd, "Auto sorting switched off!");
 								saveConfig();
 								return true;
 							}
 						}
 						//nope!
-						sendPM(plcmd, "Your permissions do not allow you to sort chests!");
+						Chat.sendPM(plcmd, "Your permissions do not allow you to sort chests!");
 						return true;
 					}
 					//reload all config
@@ -129,21 +115,21 @@ public class MagicChest extends JavaPlugin {
 						if(plcmd.isOp() || plcmd.hasPermission("magicchest.reload"))
 						{
 							reloadConfig();
-							sendPM(plcmd, "Reloaded configuration!");
+							Chat.sendPM(plcmd, "Reloaded configuration!");
 							return true;
 						}
 						//y u no op?!
-						sendPM(plcmd, "Your permissions do not allow you to reload the config!");
+						Chat.sendPM(plcmd, "Your permissions do not allow you to reload the config!");
 						return false;
 					}
 					//theres no command with that name!
-					sendPM(plcmd, "Unrecognized command: " + cmd.getName());
+					Chat.sendPM(plcmd, "Unrecognized command: " + cmd.getName());
 					return false;
 				}
 				//version # and stuff like that
-				sendPM(plcmd, "MagicChest v" + getDescription().getVersion().toString());
-				sendPM(plcmd, "Authors: " + getDescription().getAuthors().toArray()[0] + " - founder and lead dev, " + getDescription().getAuthors().toArray()[1] + " - coauthor and developer");
-				sendPM(plcmd, "Type /mgcs help to see all commands.");
+				Chat.sendPM(plcmd, "MagicChest v" + getDescription().getVersion().toString());
+				Chat.sendPM(plcmd, "Authors: " + getDescription().getAuthors().toArray()[0] + " - founder and lead dev, " + getDescription().getAuthors().toArray()[1] + " - coauthor and developer");
+				Chat.sendPM(plcmd, "Type /mgcs help to see all commands.");
 				return true;
 			}
 			//you must be a robot!
@@ -152,16 +138,4 @@ public class MagicChest extends JavaPlugin {
 		}
 		return true;
 	}
-	
-	//sends plugin message with with either a player name string or the actual instance of the player
-	public void sendPM(String pl, String msg)
-	{
-		getServer().getPlayer(pl).sendMessage(ChatColor.GOLD + "[" + ChatColor.GREEN + "MagicChest" + ChatColor.GOLD + "] " + ChatColor.RESET + msg);
-	}
-	
-	public void sendPM(Player pl, String msg)
-	{
-		pl.sendMessage(ChatColor.GOLD + "[" + ChatColor.GREEN + "MagicChest" + ChatColor.GOLD + "] " + ChatColor.RESET + msg);
-	}
-	
 }
