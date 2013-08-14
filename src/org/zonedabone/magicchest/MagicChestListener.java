@@ -1,7 +1,5 @@
 package org.zonedabone.magicchest;
 
-import net.dandielo.api.traders.tNpcAPI;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,18 +30,7 @@ public class MagicChestListener implements Listener {
 						{
 							if(pl.getConfig().getBoolean("players." + p.getName()))
 							{
-								//dtlTraders check
-								if(PluginCompatibility.getdtlTraders() != null)
-								{
-									if(!tNpcAPI.isTNpcInventory((Player) e.getPlayer()))
-									{
-										Tools.SortInventory(e);
-									}
-								}
-								else
-								{
-									Tools.SortInventory(e);
-								}
+								Tools.SortInventory(e);
 							}
 						}
 						else
@@ -66,72 +53,28 @@ public class MagicChestListener implements Listener {
 						{
 							if(pl.getConfig().getBoolean("players." + p.getName()))
 							{
-								//dtlTraders check
-								if(PluginCompatibility.getdtlTraders() != null)
-								{
-									if(!tNpcAPI.isTNpcInventory((Player) e.getPlayer()))
-									{
-										Tools.SortInventory(e);
-									}
-								}
-								else
-								{
-									Tools.SortInventory(e);
-								}
+								Tools.SortInventory(e);
 							}
 						}
 						else
 						{
 							Chat.sendPM(p, "Your chest will sort their items automatically now.  To turn this off, type /mgcs off.");
 							Tools.addToListTrue(pl, p.getName());
-							//dtlTraders check
-							if(PluginCompatibility.getdtlTraders() != null)
-							{
-								if(!tNpcAPI.isTNpcInventory((Player) e.getPlayer()))
-								{
-									Tools.SortInventory(e);
-								}
-							}
-							else
-							{
-								Tools.SortInventory(e);
-							}
+							Tools.SortInventory(e);
 						}
 					}
 					else
 					{
 						Chat.sendPM(p, "Your chest will sort their items automatically now.  To turn this off, type /mgcs off.");
 						Tools.addToListTrue(pl, p.getName());
-						//dtlTraders check
-						if(PluginCompatibility.getdtlTraders() != null)
-						{
-							if(!tNpcAPI.isTNpcInventory((Player) e.getPlayer()))
-							{
-								Tools.SortInventory(e);
-							}
-						}
-						else
-						{
-							Tools.SortInventory(e);
-						}
+						Tools.SortInventory(e);
 					}
 				}
 			}
 		}
 		else
 		{
-			//dtlTraders check
-			if(PluginCompatibility.getdtlTraders() != null)
-			{
-				if(!tNpcAPI.isTNpcInventory((Player) e.getPlayer()))
-				{
-					Tools.SortInventory(e);
-				}
-			}
-			else
-			{
-				Tools.SortInventory(e);
-			}
+			Tools.SortInventory(e);
 		}
 	}
 }

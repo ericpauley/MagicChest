@@ -17,6 +17,7 @@ public class MagicChest extends JavaPlugin {
 		mcl = new MagicChestListener(this);
 		getServer().getPluginManager().registerEvents(this.mcl, this);
 		saveDefaultConfig();
+		getLogger().info(PluginCompatibility.printPluginCompatibilty());
 		getConfig().options().copyDefaults(true);
 		try {
 			MetricsLite metrics = new MetricsLite(this);
