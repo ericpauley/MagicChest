@@ -36,6 +36,8 @@ public class PluginCompatibility {
 			compat = compat + "Compatibility loaded for dtlTraders!\n";
 		if(getChestCommands() != null)
 			compat = compat + "Compatibility loaded for ChestCommands!";
+		if(compat == "")
+			return null;
 		return compat;
 	}
 	
