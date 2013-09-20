@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -11,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 public class Tools {
+	static boolean alpha = true;
 	public static void SortInventory(InventoryOpenEvent e)
 	{
 		if(PluginCompatibility.isCompatibleInventory(e))
@@ -46,27 +50,43 @@ public class Tools {
 						stacks.add(is);
 					}
 				}
-				Collections.sort(stacks, new Comparator<ItemStack>() {
-
-					@Override
-					public int compare(ItemStack o1, ItemStack o2) {
-						if (o1.getTypeId() > o2.getTypeId()) {
-							return 1;
-						} else if (o1.getTypeId() < o2.getTypeId()) {
-							return -1;
-						} else if (o1.getData() != null && o2.getData() != null && o1.getData().getData() > o2.getData().getData()) {
-							return 1;
-						} else if (o1.getData() != null && o2.getData() != null && o1.getData().getData() < o2.getData().getData()) {
-							return -1;
-						} else if (o1.getAmount() > o2.getAmount()) {
-							return -1;
-						} else if (o1.getAmount() < o2.getAmount()) {
-							return 1;
-						} else {
-							return 0;
-						}
+				if(alpha)
+				{
+					SortedMap<String, ItemStack> alphastacks = new TreeMap<String, ItemStack>();
+					for(ItemStack item : stacks)
+					{
+						alphastacks.put(item.getType().toString(), item);
 					}
-				});
+					stacks.clear();
+					for(Entry<String, ItemStack> item : alphastacks.entrySet())
+					{
+						stacks.add(item.getValue());
+					}
+				}
+				else
+				{
+					Collections.sort(stacks, new Comparator<ItemStack>() {
+
+						@Override
+						public int compare(ItemStack o1, ItemStack o2) {
+							if (o1.getTypeId() > o2.getTypeId()) {
+								return 1;
+							} else if (o1.getTypeId() < o2.getTypeId()) {
+								return -1;
+							} else if (o1.getData() != null && o2.getData() != null && o1.getData().getData() > o2.getData().getData()) {
+								return 1;
+							} else if (o1.getData() != null && o2.getData() != null && o1.getData().getData() < o2.getData().getData()) {
+								return -1;
+							} else if (o1.getAmount() > o2.getAmount()) {
+								return -1;
+							} else if (o1.getAmount() < o2.getAmount()) {
+								return 1;
+							} else {
+								return 0;
+							}
+						}
+					});
+				}
 				e.getInventory().clear();
 				e.getInventory().setContents(stacks.toArray(new ItemStack[0]));
 			}
