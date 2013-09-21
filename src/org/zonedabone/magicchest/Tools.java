@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 public class Tools {
+	static boolean alpha = true;
 	public static void SortInventory(InventoryOpenEvent e)
 	{
 		if(PluginCompatibility.isCompatibleInventory(e))
@@ -50,13 +51,13 @@ public class Tools {
 
 					@Override
 					public int compare(ItemStack o1, ItemStack o2) {
-						if (o1.getTypeId() > o2.getTypeId()) {
+						if (o1.getType().toString().compareTo(o2.getType().toString()) > 0) {
 							return 1;
-						} else if (o1.getTypeId() < o2.getTypeId()) {
+						} else if (o1.getType().toString().compareTo(o2.getType().toString()) < 0) {
 							return -1;
-						} else if (o1.getData() != null && o2.getData() != null && o1.getData().getData() > o2.getData().getData()) {
+						} else if (o1.getDurability() > o2.getDurability()) {
 							return 1;
-						} else if (o1.getData() != null && o2.getData() != null && o1.getData().getData() < o2.getData().getData()) {
+						} else if (o1.getDurability() < o2.getDurability()) {
 							return -1;
 						} else if (o1.getAmount() > o2.getAmount()) {
 							return -1;
@@ -72,15 +73,13 @@ public class Tools {
 			}
 		}
 	}
-
-	public static void addToListFalse(Plugin pl, String p)
-	{
+	
+	public static void addToListFalse(Plugin pl, String p) {
 		pl.getConfig().set("players." + p, false);
 		pl.saveConfig();
 	}
 
-	public static void addToListTrue(Plugin pl, String p)
-	{
+	public static void addToListTrue(Plugin pl, String p) {
 		pl.getConfig().set("players." + p, true);
 		pl.saveConfig();
 	}
