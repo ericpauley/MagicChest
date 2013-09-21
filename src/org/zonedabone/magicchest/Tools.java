@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 public class Tools {
-	static boolean alpha = true;
+	
 	public static void SortInventory(InventoryOpenEvent e)
 	{
 		if(PluginCompatibility.isCompatibleInventory(e))
