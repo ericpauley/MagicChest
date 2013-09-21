@@ -51,9 +51,6 @@ public class Tools {
 
 					@Override
 					public int compare(ItemStack o1, ItemStack o2) {
-//						Bukkit.getPlayer("uvbeenzaned").sendMessage(o1.getType().toString());
-//						Bukkit.getPlayer("uvbeenzaned").sendMessage(o2.getType().toString());
-//						Bukkit.getPlayer("uvbeenzaned").sendMessage(String.valueOf(o1.getType().toString().compareTo(o2.getType().toString())));
 						if (o1.getType().toString().compareTo(o2.getType().toString()) > 0) {
 							return 1;
 						} else if (o1.getType().toString().compareTo(o2.getType().toString()) < 0) {
@@ -71,36 +68,10 @@ public class Tools {
 						}
 					}
 				});
-//				Collections.sort(stacks, new Comparator<ItemStack>() {
-//
-//					@Override
-//					public int compare(ItemStack o1, ItemStack o2) {
-//						if (o1.getTypeId() > o2.getTypeId()) {
-//							return 1;
-//						} else if (o1.getTypeId() < o2.getTypeId()) {
-//							return -1;
-//						} else if (o1.getData() != null && o2.getData() != null && o1.getData().getData() > o2.getData().getData()) {
-//							return 1;
-//						} else if (o1.getData() != null && o2.getData() != null && o1.getData().getData() < o2.getData().getData()) {
-//							return -1;
-//						} else if (o1.getAmount() > o2.getAmount()) {
-//							return -1;
-//						} else if (o1.getAmount() < o2.getAmount()) {
-//							return 1;
-//						} else {
-//							return 0;
-//						}
-//					}
-//				});
 				e.getInventory().clear();
 				e.getInventory().setContents(stacks.toArray(new ItemStack[0]));
 			}
 		}
-	}
-
-	public static List<ItemStack> sortList(List<ItemStack> input) {
-		
-		return null;
 	}
 	
 	public static void addToListFalse(Plugin pl, String p) {
