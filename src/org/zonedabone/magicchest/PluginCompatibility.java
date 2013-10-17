@@ -29,13 +29,24 @@ public class PluginCompatibility {
 		return (Main) plugin;
 	}
 	
+	private static com.rocketmail.live2pwn.Main getUncraftingTable() {
+		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("Uncrafting Table");
+		// ChestCommands may not be loaded
+		if (plugin == null || !(plugin instanceof com.rocketmail.live2pwn.Main)) {
+			return null;
+		}
+		return (com.rocketmail.live2pwn.Main) plugin;
+	}
+	
 	public static String printPluginCompatibilty()
 	{
 		String compat = "";
 		if(getdtlTraders() != null)
 			compat = compat + "Compatibility loaded for dtlTraders!\n";
 		if(getChestCommands() != null)
-			compat = compat + "Compatibility loaded for ChestCommands!";
+			compat = compat + "Compatibility loaded for ChestCommands!\n";
+		if (getUncraftingTable() != null)
+			compat = compat + "Compatibility loaded for Uncrafting Table!";
 		if(compat == "")
 			return null;
 		return compat;
@@ -49,6 +60,8 @@ public class PluginCompatibility {
 		if(getChestCommands() != null)
 			if(e.getInventory().getTitle().startsWith("§r"))
 				return false;
+		if(e.getInventory().getTitle() == "Uncrafting")
+			return false;
 		return true;
 	}
 }
