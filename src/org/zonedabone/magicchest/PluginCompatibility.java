@@ -38,6 +38,15 @@ public class PluginCompatibility {
 		return (com.rocketmail.live2pwn.Main) plugin;
 	}
 	
+	private static me.bw.fastcraft.FastCraft getFastCraft() {
+		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("FastCraft");
+		// ChestCommands may not be loaded
+		if (plugin == null || !(plugin instanceof me.bw.fastcraft.FastCraft)) {
+			return null;
+		}
+		return (me.bw.fastcraft.FastCraft) plugin;
+	}
+	
 	public static String printPluginCompatibilty()
 	{
 		String compat = "";
@@ -46,7 +55,9 @@ public class PluginCompatibility {
 		if(getChestCommands() != null)
 			compat = compat + "Compatibility loaded for ChestCommands!\n";
 		if (getUncraftingTable() != null)
-			compat = compat + "Compatibility loaded for Uncrafting Table!";
+			compat = compat + "Compatibility loaded for Uncrafting Table!\n";
+		if(getFastCraft() != null)
+			compat = compat + "Compatibility loaded for FastCraft!";
 		if(compat == "")
 			return null;
 		return compat;
@@ -58,10 +69,14 @@ public class PluginCompatibility {
 			if(tNpcAPI.isTNpcInventory((Player)e.getPlayer()))
 				return false;
 		if(getChestCommands() != null)
-			if(e.getInventory().getTitle().startsWith("Â§r"))
+			if(e.getInventory().getTitle().startsWith("§r"))
 				return false;
-		if(e.getInventory().getTitle() == "Uncrafting")
-			return false;
+		if(getUncraftingTable() != null)
+			if(e.getInventory().getTitle() == "Uncrafting")
+				return false;
+		if(getFastCraft() != null)
+			if(me.bw.fastcraft.api.FastCraftApi.isFastCraftInventory(e.getInventory()))
+				return false;
 		return true;
 	}
 }
