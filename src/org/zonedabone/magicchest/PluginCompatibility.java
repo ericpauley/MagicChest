@@ -10,7 +10,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.plugin.Plugin;
 
 public class PluginCompatibility {
-	
+
 	private static DtlTraders getdtlTraders() {
 		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("dtlTraders");
 		// DtlTraders may not be loaded
@@ -19,7 +19,7 @@ public class PluginCompatibility {
 		}
 		return (DtlTraders) plugin;
 	}
-	
+
 	private static Main getChestCommands() {
 		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ChestCommands");
 		// ChestCommands may not be loaded
@@ -28,7 +28,7 @@ public class PluginCompatibility {
 		}
 		return (Main) plugin;
 	}
-	
+
 	private static com.rocketmail.live2pwn.Main getUncraftingTable() {
 		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("Uncrafting Table");
 		// Uncrafting Table may not be loaded
@@ -37,7 +37,7 @@ public class PluginCompatibility {
 		}
 		return (com.rocketmail.live2pwn.Main) plugin;
 	}
-	
+
 	private static me.bw.fastcraft.FastCraft getFastCraft() {
 		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("FastCraft");
 		// FastCraft may not be loaded
@@ -46,9 +46,8 @@ public class PluginCompatibility {
 		}
 		return (me.bw.fastcraft.FastCraft) plugin;
 	}
-	
-	public static String printPluginCompatibilty()
-	{
+
+	public static String printPluginCompatibilty() {
 		String compat = "";
 		if(getdtlTraders() != null)
 			compat = compat + "Compatibility loaded for dtlTraders!\n";
@@ -62,9 +61,8 @@ public class PluginCompatibility {
 			return null;
 		return compat;
 	}
-	
-	public static boolean isCompatibleInventory(InventoryOpenEvent e)
-	{
+
+	public static boolean isCompatibleInventory(InventoryOpenEvent e) {
 		if(getdtlTraders() != null)
 			if(tNpcAPI.isTNpcInventory((Player)e.getPlayer()))
 				return false;

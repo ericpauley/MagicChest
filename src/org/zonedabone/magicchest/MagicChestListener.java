@@ -9,14 +9,12 @@ public class MagicChestListener implements Listener {
 	
 	MagicChest pl;
 	
-	public MagicChestListener(MagicChest pl)
-	{
+	public MagicChestListener(MagicChest pl) {
 		this.pl = pl;
 	}
 	
 	@EventHandler
-	private void onInventoryOpen(InventoryOpenEvent e)
-	{
+	private void onInventoryOpen(InventoryOpenEvent e) {
 		Player p = (Player)e.getPlayer();
 		if(!pl.getConfig().getBoolean("override"))
 		{

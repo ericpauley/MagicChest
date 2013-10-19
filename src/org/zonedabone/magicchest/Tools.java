@@ -5,15 +5,22 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.bukkit.Location;
+import org.bukkit.block.Chest;
+import org.bukkit.block.Dispenser;
+import org.bukkit.block.DoubleChest;
+import org.bukkit.block.Dropper;
+import org.bukkit.block.Hopper;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 public class Tools {
 	
-	public static void SortInventory(InventoryOpenEvent e)
-	{
+	public static void SortInventory(InventoryOpenEvent e) {
 		if(PluginCompatibility.isCompatibleInventory(e))
 		{
 			InventoryType type = e.getInventory().getType();
@@ -72,6 +79,22 @@ public class Tools {
 				e.getInventory().setContents(stacks.toArray(new ItemStack[0]));
 			}
 		}
+	}
+	
+	public static Location getInventoryLocation(Inventory i) {
+		InventoryHolder ih = i.getHolder();
+		Location l = null;
+		if(ih instanceof Chest)
+			l = ((Chest)ih).getLocation();
+		if(ih instanceof DoubleChest)
+			l = ((DoubleChest)ih).getLocation();
+		if(ih instanceof Hopper)
+			l = ((Hopper)ih).getLocation();
+		if(ih instanceof Dispenser)
+			l = ((Dispenser)ih).getLocation();
+		if(ih instanceof Dropper)
+			l = ((Dropper)ih).getLocation();
+		return l;
 	}
 	
 	public static void addToListFalse(Plugin pl, String p) {
