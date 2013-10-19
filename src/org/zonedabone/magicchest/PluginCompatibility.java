@@ -31,7 +31,7 @@ public class PluginCompatibility {
 	
 	private static com.rocketmail.live2pwn.Main getUncraftingTable() {
 		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("Uncrafting Table");
-		// ChestCommands may not be loaded
+		// Uncrafting Table may not be loaded
 		if (plugin == null || !(plugin instanceof com.rocketmail.live2pwn.Main)) {
 			return null;
 		}
@@ -40,7 +40,7 @@ public class PluginCompatibility {
 	
 	private static me.bw.fastcraft.FastCraft getFastCraft() {
 		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("FastCraft");
-		// ChestCommands may not be loaded
+		// FastCraft may not be loaded
 		if (plugin == null || !(plugin instanceof me.bw.fastcraft.FastCraft)) {
 			return null;
 		}
