@@ -2,7 +2,7 @@ package org.zonedabone.magicchest;
 
 import net.dandielo.api.traders.tNpcAPI;
 import net.dandielo.citizens.traders_v3.bukkit.DtlTraders;
-import com.gmail.filoghost.chestcommands.Main;
+import com.gmail.filoghost.chestcommands.ChestCommands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -20,13 +20,13 @@ public class PluginCompatibility {
 		return (DtlTraders) plugin;
 	}
 
-	private static Main getChestCommands() {
+	private static ChestCommands getChestCommands() {
 		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("ChestCommands");
 		// ChestCommands may not be loaded
-		if (plugin == null || !(plugin instanceof Main)) {
+		if (plugin == null || !(plugin instanceof ChestCommands)) {
 			return null;
 		}
-		return (Main) plugin;
+		return (ChestCommands) plugin;
 	}
 
 	private static com.rocketmail.live2pwn.Main getUncraftingTable() {
