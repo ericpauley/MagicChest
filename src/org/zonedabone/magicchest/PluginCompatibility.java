@@ -2,11 +2,18 @@ package org.zonedabone.magicchest;
 
 import net.dandielo.api.traders.tNpcAPI;
 import net.dandielo.citizens.traders_v3.bukkit.DtlTraders;
+
 import com.gmail.filoghost.chestcommands.ChestCommands;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Chest;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.plugin.Plugin;
 
 public class PluginCompatibility {
@@ -46,6 +53,15 @@ public class PluginCompatibility {
 		}
 		return (me.bw.fastcraft.FastCraft) plugin;
 	}
+	
+	private static pl.austindev.ashops.AShops getAShops() {
+		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("AShops");
+		// AShops may not be loaded
+		if (plugin == null || !(plugin instanceof pl.austindev.ashops.AShops)) {
+			return null;
+		}
+		return (pl.austindev.ashops.AShops) plugin;
+	}
 
 	public static String printPluginCompatibilty() {
 		String compat = "";
@@ -53,10 +69,12 @@ public class PluginCompatibility {
 			compat = compat + "Compatibility loaded for dtlTraders!\n";
 		if(getChestCommands() != null)
 			compat = compat + "Compatibility loaded for ChestCommands!\n";
-		if (getUncraftingTable() != null)
+		if(getUncraftingTable() != null)
 			compat = compat + "Compatibility loaded for Uncrafting Table!\n";
 		if(getFastCraft() != null)
-			compat = compat + "Compatibility loaded for FastCraft!";
+			compat = compat + "Compatibility loaded for FastCraft!\n";
+		if(getAShops() != null)
+			compat = compat + "Compatibility loaded for AShops!";
 		if(compat == "")
 			return null;
 		return compat;
@@ -75,6 +93,29 @@ public class PluginCompatibility {
 		if(getFastCraft() != null)
 			if(me.bw.fastcraft.api.FastCraftApi.isFastCraftInventory(e.getInventory()))
 				return false;
+		if(getAShops() != null)
+			if(e.getInventory().getTitle().contains("Shop Manager")
+					|| e.getInventory().getTitle().contains("Select item.")
+					|| e.getInventory().getTitle().contains("Offer Manager")
+					|| e.getInventory().getTitle().contains("Collect items")
+					|| e.getInventory().getTitle().contains("Load items")
+					|| e.getInventory().getTitle().contains("Buy")
+					|| e.getInventory().getTitle().contains("Sell"))
+				return false;
+		//Bukkit.getPlayer("uvbeenzaned").sendMessage(e.getInventory().getType().toString() + ", " + e.getInventory().getHolder().toString());
+			if(e.getInventory().getType() == InventoryType.CHEST && e.getInventory().getHolder() instanceof Chest) {
+				Block b = ((Chest)e.getInventory().getHolder()).getBlock();
+				for(BlockFace bf : BlockFace.values()) {
+					//Bukkit.getPlayer("uvbeenzaned").sendMessage(bf.toString() + ": " + b.getRelative(bf).getType().toString());
+					if(b.getRelative(bf).getType() == Material.WALL_SIGN) {
+						for(String s : ((Sign)b.getRelative(bf)).getLines()) {
+							if(s.contains("(AShops)")) {
+								return false;
+							}
+						}
+					}
+				}
+			}
 		return true;
 	}
 }
