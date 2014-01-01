@@ -1,5 +1,5 @@
 name: MagicChest
-version: 1.2.3
+version: 1.2.4
 description: Summons little gremlins to organize your chests when you're not looking.
 authors: [zonedabone, uvbeenzaned]
 main: org.zonedabone.magicchest.MagicChest
@@ -13,6 +13,7 @@ commands:
     usage: |
       Type /<command> help - to show this usage help.
       Type /<command> on/off - to enable or disable auto inventory sorting.
+      Type /<command> invon/invoff - to enable or disable auto item pickup player inventory sorting.
       Type /<command> reload - to reload MagicChest's config file. (for ops and those who have permissions)
 permissions:
     magicchest.sort:

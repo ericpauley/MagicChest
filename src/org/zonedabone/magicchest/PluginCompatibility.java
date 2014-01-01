@@ -12,8 +12,8 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 
 public class PluginCompatibility {
@@ -34,15 +34,6 @@ public class PluginCompatibility {
 			return null;
 		}
 		return (ChestCommands) plugin;
-	}
-
-	private static com.rocketmail.live2pwn.Main getUncraftingTable() {
-		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("Uncrafting Table");
-		// Uncrafting Table may not be loaded
-		if (plugin == null || !(plugin instanceof com.rocketmail.live2pwn.Main)) {
-			return null;
-		}
-		return (com.rocketmail.live2pwn.Main) plugin;
 	}
 
 	private static me.bw.fastcraft.FastCraft getFastCraft() {
@@ -69,8 +60,6 @@ public class PluginCompatibility {
 			compat = compat + "Compatibility loaded for dtlTraders!\n";
 		if(getChestCommands() != null)
 			compat = compat + "Compatibility loaded for ChestCommands!\n";
-		if(getUncraftingTable() != null)
-			compat = compat + "Compatibility loaded for Uncrafting Table!\n";
 		if(getFastCraft() != null)
 			compat = compat + "Compatibility loaded for FastCraft!\n";
 		if(getAShops() != null)
@@ -80,35 +69,30 @@ public class PluginCompatibility {
 		return compat;
 	}
 
-	public static boolean isCompatibleInventory(InventoryOpenEvent e) {
+	public static boolean isCompatibleInventory(Inventory i, Player p) {
 		if(getdtlTraders() != null)
-			if(tNpcAPI.isTNpcInventory((Player)e.getPlayer()))
+			if(tNpcAPI.isTNpcInventory(p))
 				return false;
 		if(getChestCommands() != null)
-			if(e.getInventory().getTitle().startsWith("§r"))
-				return false;
-		if(getUncraftingTable() != null)
-			if(e.getInventory().getTitle() == "Uncrafting")
+			if(i.getTitle().startsWith("§r"))
 				return false;
 		if(getFastCraft() != null)
-			if(me.bw.fastcraft.api.FastCraftApi.isFastCraftInventory(e.getInventory()))
+			if(me.bw.fastcraft.api.FastCraftApi.isFastCraftInventory(i))
 				return false;
 		if(getAShops() != null)
-			if(e.getInventory().getTitle().contains("Shop Manager")
-					|| e.getInventory().getTitle().contains("Select item.")
-					|| e.getInventory().getTitle().contains("Offer Manager")
-					|| e.getInventory().getTitle().contains("Collect items")
-					|| e.getInventory().getTitle().contains("Load items")
-					|| e.getInventory().getTitle().contains("Buy")
-					|| e.getInventory().getTitle().contains("Sell"))
+			if(i.getTitle().contains("Shop Manager")
+					|| i.getTitle().contains("Select item.")
+					|| i.getTitle().contains("Offer Manager")
+					|| i.getTitle().contains("Collect items")
+					|| i.getTitle().contains("Load items")
+					|| i.getTitle().contains("Buy")
+					|| i.getTitle().contains("Sell"))
 				return false;
-		//Bukkit.getPlayer("uvbeenzaned").sendMessage(e.getInventory().getType().toString() + ", " + e.getInventory().getHolder().toString());
-			if(e.getInventory().getType() == InventoryType.CHEST && e.getInventory().getHolder() instanceof Chest) {
-				Block b = ((Chest)e.getInventory().getHolder()).getBlock();
+			if(i.getType() == InventoryType.CHEST && i.getHolder() instanceof Chest) {
+				Block b = ((Chest)i.getHolder()).getBlock();
 				for(BlockFace bf : BlockFace.values()) {
-					//Bukkit.getPlayer("uvbeenzaned").sendMessage(bf.toString() + ": " + b.getRelative(bf).getType().toString());
 					if(b.getRelative(bf).getType() == Material.WALL_SIGN) {
-						for(String s : ((Sign)b.getRelative(bf)).getLines()) {
+						for(String s : ((Sign)b.getRelative(bf).getState()).getLines()) {
 							if(s.contains("(AShops)")) {
 								return false;
 							}

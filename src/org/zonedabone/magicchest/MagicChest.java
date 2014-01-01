@@ -110,6 +110,62 @@ public class MagicChest extends JavaPlugin {
 						Chat.sendPM(plcmd, "Your permissions do not allow you to sort chests!");
 						return true;
 					}
+					//turn individual player on item pickup sort on
+					if(args[0].equalsIgnoreCase("invon"))
+					{
+						//check for perms
+						if(plcmd.isOp() || plcmd.hasPermission("magicchest.sort"))
+						{
+							if(getConfig().getConfigurationSection("inv-players") != null)
+							{
+								if(getConfig().getConfigurationSection("inv-players").contains(plcmd.getName()))
+								{
+									getConfig().set("inv-players." + plcmd.getName(), true);
+									Chat.sendPM(plcmd, "Inventory item pickup auto sorting switched on!");
+									saveConfig();
+									return true;
+								}
+							}
+							else
+							{
+								getConfig().set("inv-players." + plcmd.getName(), true);
+								Chat.sendPM(plcmd, "Inventory item pickup auto sorting switched on!");
+								saveConfig();
+								return true;
+							}
+						}
+						//nope!
+						Chat.sendPM(plcmd, "Your permissions do not allow you to sort your inventory!");
+						return true;
+					}
+					//turn individual player on item pickup sort on
+					if(args[0].equalsIgnoreCase("invoff"))
+					{
+						//check for perms
+						if(plcmd.isOp() || plcmd.hasPermission("magicchest.sort"))
+						{
+							if(getConfig().getConfigurationSection("inv-players") != null)
+							{
+								if(getConfig().getConfigurationSection("inv-players").contains(plcmd.getName()))
+								{
+									getConfig().set("inv-players." + plcmd.getName(), false);
+									Chat.sendPM(plcmd, "Inventory item pickup auto sorting switched off!");
+									saveConfig();
+									return true;
+								}
+							}
+							else
+							{
+								getConfig().set("inv-players." + plcmd.getName(), false);
+								Chat.sendPM(plcmd, "Inventory item pickup auto sorting switched off!");
+								saveConfig();
+								return true;
+							}
+						}
+						//nope!
+						Chat.sendPM(plcmd, "Your permissions do not allow you to sort your inventory!");
+						return true;
+					}
 					//reload all config
 					if(args[0].equalsIgnoreCase("reload"))
 					{
@@ -129,7 +185,7 @@ public class MagicChest extends JavaPlugin {
 				}
 				//version # and stuff like that
 				Chat.sendPM(plcmd, "MagicChest v" + getDescription().getVersion().toString());
-				Chat.sendPM(plcmd, "Authors: " + getDescription().getAuthors().toArray()[0] + " - founder and lead dev, " + getDescription().getAuthors().toArray()[1] + " - coauthor and developer");
+				Chat.sendPM(plcmd, "Authors: " + getDescription().getAuthors().toArray()[0] + " - founder and lead dev, " + getDescription().getAuthors().toArray()[1] + " - coauthor and dev");
 				Chat.sendPM(plcmd, "Type /mgcs help to see all commands.");
 				return true;
 			}

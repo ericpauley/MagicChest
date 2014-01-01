@@ -4,3 +4,5 @@ override: false
 default_sorting: false
 # user switches for auto sorting prefs
 players: 
+# user switcher for auto sort on item pickup
+inv-players: 
