@@ -3,7 +3,7 @@ version: 1.2.4
 description: Summons little gremlins to organize your chests when you're not looking.
 authors: [zonedabone, uvbeenzaned]
 main: org.zonedabone.magicchest.MagicChest
-softdepend: [dtlTraders, ChestCommands, Uncrafting Table, FastCraft]
+softdepend: [dtlTraders, ChestCommands, FastCraft, AShops, SkillAPI, SimpleGUI Creator]
 dev-url: http://dev.bukkit.org/server-mods/magicchest/
 commands:
   magicchest:
@@ -25,6 +25,7 @@ permissions:
             magicchest.sort.dropper: true
             magicchest.sort.enderchest: true
             magicchest.sort.hopper: true
+            magicchest.sort.inventory: true
     magicchest.help:
         description: Shows MagicChest usage help.
     magicchest.sort.chest:
