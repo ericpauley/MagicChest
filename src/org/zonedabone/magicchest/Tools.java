@@ -20,7 +20,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
-import org.zonedabone.magicchest.API.InventorySortEvent;
+import org.zonedabone.magicchest.api.InventorySortEvent;
 
 public class Tools {
 

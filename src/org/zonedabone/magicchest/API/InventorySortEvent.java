@@ -1,4 +1,4 @@
-package org.zonedabone.magicchest.API;
+package org.zonedabone.magicchest.api;
 
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -35,5 +35,4 @@ public class InventorySortEvent extends Event implements Cancellable {
 	public static HandlerList getHandlerList() {
 	    return handlers;
 	}
-
 }
