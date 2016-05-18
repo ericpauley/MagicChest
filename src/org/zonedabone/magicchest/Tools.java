@@ -59,7 +59,7 @@ public class Tools {
 					List<ItemStack> stacks = new ArrayList<ItemStack>();
 					if (isPlayerInventory) {
 						int skip = 9;
-						for (ItemStack is : pi.getContents()) {
+						for (ItemStack is : pi.getStorageContents()) {
 							if (skip < 1) {
 								if (is == null)
 									continue;

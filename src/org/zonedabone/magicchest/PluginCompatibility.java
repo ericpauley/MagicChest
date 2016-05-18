@@ -43,23 +43,23 @@ public class PluginCompatibility {
 		return (ChestCommands) plugin;
 	}
 
-	private static me.bw.fastcraft.FastCraft getFastCraft() {
+	private static co.kepler.fastcraftplus.FastCraft getFastCraft() {
 		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("FastCraft");
 		// FastCraft may not be loaded
-		if (plugin == null || !(plugin instanceof me.bw.fastcraft.FastCraft)) {
+		if (plugin == null || !(plugin instanceof co.kepler.fastcraftplus.FastCraft)) {
 			return null;
 		}
-		return (me.bw.fastcraft.FastCraft) plugin;
+		return (co.kepler.fastcraftplus.FastCraft) plugin;
 	}
 
-	private static pl.austindev.ashops.AShops getAShops() {
-		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("AShops");
-		// AShops may not be loaded
-		if (plugin == null || !(plugin instanceof pl.austindev.ashops.AShops)) {
-			return null;
-		}
-		return (pl.austindev.ashops.AShops) plugin;
-	}
+//	private static pl.austindev.ashops.AShops getAShops() {
+//		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("AShops");
+//		// AShops may not be loaded
+//		if (plugin == null || !(plugin instanceof pl.austindev.ashops.AShops)) {
+//			return null;
+//		}
+//		return (pl.austindev.ashops.AShops) plugin;
+//	}
 
 	private static com.sucy.skill.SkillAPI getSkillAPI() {
 		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("SkillAPI");
@@ -87,8 +87,8 @@ public class PluginCompatibility {
 			compat = compat + "Compatibility loaded for ChestCommands!\n";
 		if (getFastCraft() != null)
 			compat = compat + "Compatibility loaded for FastCraft!\n";
-		if (getAShops() != null)
-			compat = compat + "Compatibility loaded for AShops!\n";
+//		if (getAShops() != null)
+//			compat = compat + "Compatibility loaded for AShops!\n";
 		if (getSkillAPI() != null)
 			compat = compat + "Compatibility loaded for SkillAPI!";
 //		if (getSimpleGuiCreator() != null)
@@ -106,14 +106,14 @@ public class PluginCompatibility {
 			if (tNpcAPI.isTNpcInventory(p))
 				return false;
 		if (getChestCommands() != null)
-			if (i.getTitle().startsWith("§r"))
+			if (i instanceof com.gmail.filoghost.chestcommands.internal.MenuInventoryHolder)
 				return false;
 		if (getFastCraft() != null)
-			if (me.bw.fastcraft.api.FastCraftApi.isFastCraftInventory(i))
+			if (co.kepler.fastcraftplus.api.gui.FastCraftAPI.isFastCraftGUI(i))
 				return false;
-		if (getAShops() != null)
-			if (i.getTitle().contains("Shop Manager") || i.getTitle().contains("Select item.") || i.getTitle().contains("Offer Manager") || i.getTitle().contains("Collect items") || i.getTitle().contains("Load items") || i.getTitle().contains("Buy") || i.getTitle().contains("Sell"))
-				return false;
+//		if (getAShops() != null)
+//			if (i.getTitle().contains("Shop Manager") || i.getTitle().contains("Select item.") || i.getTitle().contains("Offer Manager") || i.getTitle().contains("Collect items") || i.getTitle().contains("Load items") || i.getTitle().contains("Buy") || i.getTitle().contains("Sell"))
+//				return false;
 		if (i.getType() == InventoryType.CHEST && i.getHolder() instanceof Chest) {
 			Block b = ((Chest) i.getHolder()).getBlock();
 			for (BlockFace bf : BlockFace.values()) {
