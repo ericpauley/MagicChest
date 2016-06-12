@@ -44,7 +44,7 @@ public class PluginCompatibility {
 	}
 
 	private static co.kepler.fastcraftplus.FastCraft getFastCraft() {
-		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("FastCraft");
+		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("FastCraftPlus");
 		// FastCraft may not be loaded
 		if (plugin == null || !(plugin instanceof co.kepler.fastcraftplus.FastCraft)) {
 			return null;
@@ -111,9 +111,6 @@ public class PluginCompatibility {
 		if (getFastCraft() != null)
 			if (co.kepler.fastcraftplus.api.gui.FastCraftAPI.isFastCraftGUI(i))
 				return false;
-//		if (getAShops() != null)
-//			if (i.getTitle().contains("Shop Manager") || i.getTitle().contains("Select item.") || i.getTitle().contains("Offer Manager") || i.getTitle().contains("Collect items") || i.getTitle().contains("Load items") || i.getTitle().contains("Buy") || i.getTitle().contains("Sell"))
-//				return false;
 		if (i.getType() == InventoryType.CHEST && i.getHolder() instanceof Chest) {
 			Block b = ((Chest) i.getHolder()).getBlock();
 			for (BlockFace bf : BlockFace.values()) {
