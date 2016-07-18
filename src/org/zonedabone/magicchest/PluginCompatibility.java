@@ -52,15 +52,6 @@ public class PluginCompatibility {
 		return (co.kepler.fastcraftplus.FastCraft) plugin;
 	}
 
-//	private static pl.austindev.ashops.AShops getAShops() {
-//		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("AShops");
-//		// AShops may not be loaded
-//		if (plugin == null || !(plugin instanceof pl.austindev.ashops.AShops)) {
-//			return null;
-//		}
-//		return (pl.austindev.ashops.AShops) plugin;
-//	}
-
 	private static com.sucy.skill.SkillAPI getSkillAPI() {
 		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("SkillAPI");
 		// SkillAPI may not be loaded
@@ -70,15 +61,6 @@ public class PluginCompatibility {
 		return (com.sucy.skill.SkillAPI) plugin;
 	}
 
-//	private static org.goblom.gui.plugin.SimpleGuiCreator getSimpleGuiCreator() {
-//		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("SimpleGUI Creator");
-//		// SimpleGuiCreator may not be loaded
-//		if (plugin == null || !(plugin instanceof org.goblom.gui.plugin.SimpleGuiCreator)) {
-//			return null;
-//		}
-//		return (org.goblom.gui.plugin.SimpleGuiCreator) plugin;
-//	}
-
 	public static String printPluginCompatibilty() {
 		String compat = "";
 		if (getdtlTraders() != null)
@@ -87,12 +69,8 @@ public class PluginCompatibility {
 			compat = compat + "Compatibility loaded for ChestCommands!\n";
 		if (getFastCraft() != null)
 			compat = compat + "Compatibility loaded for FastCraft!\n";
-//		if (getAShops() != null)
-//			compat = compat + "Compatibility loaded for AShops!\n";
 		if (getSkillAPI() != null)
 			compat = compat + "Compatibility loaded for SkillAPI!";
-//		if (getSimpleGuiCreator() != null)
-//			compat = compat + "Compatibility loaded for SimpleGUI Creator!";
 		if (compat == "")
 			return null;
 		return compat;
@@ -109,7 +87,7 @@ public class PluginCompatibility {
 			if (i instanceof com.gmail.filoghost.chestcommands.internal.MenuInventoryHolder)
 				return false;
 		if (getFastCraft() != null)
-			if (co.kepler.fastcraftplus.api.gui.FastCraftAPI.isFastCraftGUI(i))
+			if (co.kepler.fastcraftplus.api.FastCraftAPI.isGUI(i))
 				return false;
 		if (i.getType() == InventoryType.CHEST && i.getHolder() instanceof Chest) {
 			Block b = ((Chest) i.getHolder()).getBlock();
@@ -126,12 +104,6 @@ public class PluginCompatibility {
 		if (getSkillAPI() != null)
 			if (i.getHolder() instanceof com.sucy.skill.tree.SkillTree)
 				return false;
-//		if (getSimpleGuiCreator() != null)
-//			for (String t : getSimpleGuiCreator().getAPI(plugin).getGUIs()) {
-//				if (i.getTitle().equals(t)) {
-//					return false;
-//				}
-//			}
 		return true;
 	}
 }
