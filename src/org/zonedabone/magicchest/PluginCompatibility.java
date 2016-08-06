@@ -43,13 +43,13 @@ public class PluginCompatibility {
 		return (ChestCommands) plugin;
 	}
 
-	private static co.kepler.fastcraftplus.FastCraft getFastCraft() {
+	private static co.kepler.fastcraftplus.FastCraftPlus getFastCraft() {
 		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("FastCraftPlus");
 		// FastCraft may not be loaded
-		if (plugin == null || !(plugin instanceof co.kepler.fastcraftplus.FastCraft)) {
+		if (plugin == null || !(plugin instanceof co.kepler.fastcraftplus.FastCraftPlus)) {
 			return null;
 		}
-		return (co.kepler.fastcraftplus.FastCraft) plugin;
+		return (co.kepler.fastcraftplus.FastCraftPlus) plugin;
 	}
 
 	private static com.sucy.skill.SkillAPI getSkillAPI() {
