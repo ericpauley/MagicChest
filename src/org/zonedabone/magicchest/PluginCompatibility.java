@@ -108,11 +108,6 @@ public class PluginCompatibility {
 				return false;
 
 		//last resort check valid titles
-//		p.sendMessage(i.getTitle());
-//		for (String title:getNativeInventoryTitles()) {
-//			p.sendMessage(title);
-//		}
-
 		if(!getNativeInventoryTitles().contains(i.getTitle()))
 			return false;
 
