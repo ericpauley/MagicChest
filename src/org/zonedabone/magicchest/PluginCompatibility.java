@@ -17,6 +17,8 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 
+import java.util.ArrayList;
+
 public class PluginCompatibility {
 
 	private static Plugin plugin;
@@ -104,6 +106,25 @@ public class PluginCompatibility {
 		if (getSkillAPI() != null)
 			if (i.getHolder() instanceof com.sucy.skill.tree.SkillTree)
 				return false;
+
+		//last resort check valid titles
+//		p.sendMessage(i.getTitle());
+//		for (String title:getNativeInventoryTitles()) {
+//			p.sendMessage(title);
+//		}
+
+		if(!getNativeInventoryTitles().contains(i.getTitle()))
+			return false;
+
 		return true;
+	}
+
+	public static ArrayList<String> getNativeInventoryTitles() {
+		String validTypes = "container.inventory,container.chest,container.chestDouble,container.enderchest,Minecart with Chest";
+		ArrayList<String> listTypes = new ArrayList<String>();
+		for (String type : validTypes.split(",")) {
+			listTypes.add(type);
+		}
+		return listTypes;
 	}
 }
