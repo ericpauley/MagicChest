@@ -21,7 +21,6 @@ import java.util.List;
 public class Tools {
 
     public static void SortInventory(Inventory i, Player p) {
-        Bukkit.broadcastMessage("sort inventory: " + Boolean.toString(PluginCompatibility.isCompatibleInventory(i, p)));
         if (PluginCompatibility.isCompatibleInventory(i, p)) {
             InventorySortEvent ise = new InventorySortEvent(i);
             Bukkit.getServer().getPluginManager().callEvent(ise);
@@ -147,22 +146,6 @@ public class Tools {
                 }
             }
         }
-    }
-
-    public static Location getInventoryLocation(Inventory i) {
-        InventoryHolder ih = i.getHolder();
-        Location l = null;
-        if (ih instanceof Chest)
-            l = ((Chest) ih).getLocation();
-        if (ih instanceof DoubleChest)
-            l = ((DoubleChest) ih).getLocation();
-        if (ih instanceof Hopper)
-            l = ((Hopper) ih).getLocation();
-        if (ih instanceof Dispenser)
-            l = ((Dispenser) ih).getLocation();
-        if (ih instanceof Dropper)
-            l = ((Dropper) ih).getLocation();
-        return l;
     }
 
     public static void addToListFalse(Plugin pl, String p) {
