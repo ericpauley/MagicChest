@@ -1,5 +1,5 @@
 name: MagicChest
-version: 1.2.9
+version: 1.3.0
 description: Summons little gremlins to organize your chests when you're not looking.
 authors: [zonedabone, uvbeenzaned]
 main: org.zonedabone.magicchest.MagicChest
@@ -11,10 +11,10 @@ commands:
     aliases: mgcs
     permission: magicchest.sort
     usage: |
-      Type /<command> help - to show this usage help.
-      Type /<command> on/off - to enable or disable auto inventory sorting.
-      Type /<command> invon/invoff - to enable or disable auto item pickup player inventory sorting.
-      Type /<command> reload - to reload MagicChest's config file. (for ops and those who have permissions)
+      /<command> help - show this usage help.
+      /<command> on/off - enable or disable auto inventory sorting.
+      /<command> invon/invoff - enable or disable auto item pickup player inventory sorting.
+      /<command> reload - reload MagicChest's config file. (for ops and those who have permissions)
 permissions:
     magicchest.sort:
         description: Sorts all inventories that this player opens.
@@ -25,6 +25,7 @@ permissions:
             magicchest.sort.dropper: true
             magicchest.sort.enderchest: true
             magicchest.sort.hopper: true
+            magicchest.sort.shulkerbox: true
             magicchest.sort.inventory: true
     magicchest.help:
         description: Shows MagicChest usage help.
@@ -38,5 +39,7 @@ permissions:
         description: Sorts ender chests that this player opens.
     magicchest.sort.hopper:
         description: Sorts hoppers that this player opens.
+    magicchest.sort.shulkerbox:
+        description: Sorts Shulker boxes that this player opens.
     magicchest.reload:
         description: Reloads all of MagicChest's config.
