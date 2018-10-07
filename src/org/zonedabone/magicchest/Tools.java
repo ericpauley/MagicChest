@@ -1,17 +1,14 @@
 package org.zonedabone.magicchest;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
-import org.zonedabone.magicchest.api.InventorySortEvent;
+import org.zonedabone.magicchest.API.InventorySortEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;

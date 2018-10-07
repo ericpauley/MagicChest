@@ -1,17 +1,11 @@
 package org.zonedabone.magicchest;
 
+import com.drcnetwork.MineVid.DtlTraders;
+import com.drcnetwork.MineVid.apiClasses.tNpcAPI;
 import com.gmail.filoghost.chestcommands.ChestCommands;
-import net.dandielo.api.traders.tNpcAPI;
-import net.dandielo.citizens.traders_v3.bukkit.DtlTraders;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Chest;
-import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 
@@ -43,13 +37,13 @@ public class PluginCompatibility {
         return (ChestCommands) plugin;
     }
 
-    private static co.kepler.fastcraftplus.FastCraftPlus getFastCraft() {
+    private static co.kepler.fastcraft.FastCraft getFastCraft() {
         Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("FastCraftPlus");
         // FastCraft may not be loaded
-        if (plugin == null || !(plugin instanceof co.kepler.fastcraftplus.FastCraftPlus)) {
+        if (plugin == null || !(plugin instanceof co.kepler.fastcraft.FastCraft)) {
             return null;
         }
-        return (co.kepler.fastcraftplus.FastCraftPlus) plugin;
+        return (co.kepler.fastcraft.FastCraft) plugin;
     }
 
     private static com.sucy.skill.SkillAPI getSkillAPI() {
@@ -87,20 +81,8 @@ public class PluginCompatibility {
             if (i instanceof com.gmail.filoghost.chestcommands.internal.MenuInventoryHolder)
                 return false;
         if (getFastCraft() != null)
-            if (co.kepler.fastcraftplus.api.FastCraftAPI.isGUI(i))
+            if (co.kepler.fastcraft.api.FastCraftAPI.isGUI(i))
                 return false;
-        if (i.getType() == InventoryType.CHEST && i.getHolder() instanceof Chest) {
-            Block b = ((Chest) i.getHolder()).getBlock();
-            for (BlockFace bf : BlockFace.values()) {
-                if (b.getRelative(bf).getType() == Material.WALL_SIGN) {
-                    for (String s : ((Sign) b.getRelative(bf).getState()).getLines()) {
-                        if (s.contains("(AShops)")) {
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
         if (getSkillAPI() != null)
             if (i.getHolder() instanceof com.sucy.skill.tree.SkillTree)
                 return false;
@@ -114,7 +96,7 @@ public class PluginCompatibility {
     }
 
     public static ArrayList<String> getNativeInventoryTitles() {
-        String validTypes = "container.inventory,container.chest,container.chestDouble,container.enderchest,Minecart with Chest,container.shulkerBox";
+        String validTypes = "Inventory,Chest,Large Chest,Shulker Box,Ender Chest,Minecart with Chest";
         ArrayList<String> listTypes = new ArrayList<String>();
         for (String type : validTypes.split(",")) {
             listTypes.add(type);
